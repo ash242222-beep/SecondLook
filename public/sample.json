@@ -1,0 +1,258 @@
+{
+  "mode": "analysis",
+  "user_note": "",
+  "decision": {
+    "question": "Whether to accept a 6-month internship during the college term or decline it to stay on track for scheduled graduation.",
+    "options": [
+      {
+        "id": "A",
+        "label": "Accept the internship",
+        "inferred": false
+      },
+      {
+        "id": "B",
+        "label": "Decline it and continue classes",
+        "inferred": false
+      }
+    ]
+  },
+  "reading_of_reasoning": "Here is how I read your thinking: you are weighing practical benefits (income, convenience, and resume strength) against academic momentum and uncertainty about workplace support.",
+  "considered": [
+    {
+      "factor": "Stipend amount and financial benefit",
+      "user_quote": "The stipend is good",
+      "side": "A"
+    },
+    {
+      "factor": "Commute and geographic convenience",
+      "user_quote": "close to home",
+      "side": "A"
+    },
+    {
+      "factor": "Resume enhancement with industry experience",
+      "user_quote": "real industry experience on my resume before graduating",
+      "side": "A"
+    },
+    {
+      "factor": "Graduation timeline delay",
+      "user_quote": "delay my graduation by one semester",
+      "side": "B"
+    },
+    {
+      "factor": "Uncertain workload and mentorship quality",
+      "user_quote": "don't know how intense the workload will be or if I'll actually get mentored",
+      "side": "both"
+    }
+  ],
+  "reasoning_chains": [
+    {
+      "id": "c1",
+      "claim_quote": "close to home",
+      "seems_to_conclude": "Living near the office means lower friction and fewer logistical complications during the term.",
+      "rests_on": "Proximity to home translates directly into manageable daily routines without conflicting home responsibilities.",
+      "support": "assumed",
+      "question": "What daily home or family expectations might conflict with a full-time corporate schedule, even if the commute is short?"
+    },
+    {
+      "id": "c2",
+      "claim_quote": "real industry experience on my resume before graduating",
+      "seems_to_conclude": "Having an employer brand on the resume before graduation significantly improves full-time job prospects.",
+      "rests_on": "Graduating with one term of industry experience outweighs graduating on the standard timeline without that specific credential.",
+      "support": "stated_with_evidence",
+      "question": "How do recruiters in your specific field value a co-op term relative to academic capstones, student clubs, or summer internships?"
+    },
+    {
+      "id": "c3",
+      "claim_quote": "delay my graduation by one semester",
+      "seems_to_conclude": "Graduating a term later represents a meaningful cost or setback.",
+      "rests_on": "Graduating with your cohort and starting full-time job search in the original window holds distinct market or personal value.",
+      "support": "stated_with_evidence",
+      "question": "What concrete academic or financial penalties (financial aid timing, course prerequisites, lease terms) happen if graduation shifts by one term?"
+    },
+    {
+      "id": "c4",
+      "claim_quote": "if I'll actually get mentored",
+      "seems_to_conclude": "The value of the internship depends heavily on active guidance rather than solo busywork.",
+      "rests_on": "Early-career industry work requires structured support to convert into transferable skills.",
+      "support": "unknown",
+      "question": "Can you ask former interns or the hiring manager specifically how tasks and mentorship are allocated to interns?"
+    }
+  ],
+  "blind_spots": [
+    {
+      "id": "b1",
+      "type": "missing_factor",
+      "applies_to": "A",
+      "title": "Course sequencing and prerequisite lockouts",
+      "what_is_unexamined": "Whether missing a single fall or spring semester blocks prerequisite sequences that are only offered once per academic year.",
+      "why_it_matters": "A planned one-semester delay could inadvertently turn into a full one-year graduation delay if core courses run annually.",
+      "user_quote": "delay my graduation by one semester",
+      "question": "Are the courses you would skip offered in the following term, or only once each calendar year?",
+      "significance": "high"
+    },
+    {
+      "id": "b2",
+      "type": "uncertainty",
+      "applies_to": "A",
+      "title": "Full-time conversion potential and historical return rates",
+      "what_is_unexamined": "Whether the hosting company regularly converts 6-month interns into full-time post-graduation hires.",
+      "why_it_matters": "If conversion is standard, the internship solves the graduation hiring scramble in advance; if rare, it is solely a resume line.",
+      "user_quote": "real industry experience on my resume before graduating",
+      "question": "What percentage of interns at this company receive return offers upon graduation?",
+      "significance": "high"
+    },
+    {
+      "id": "b3",
+      "type": "trade_off",
+      "applies_to": "B",
+      "title": "Alternative pathways to equivalent industry exposure",
+      "what_is_unexamined": "What alternative ways you have to gain applied industry experience during school without pausing classes.",
+      "why_it_matters": "Declining protects the graduation date, but you need to know if research labs, summer gigs, or open-source projects can substitute.",
+      "user_quote": "real industry experience on my resume before graduating",
+      "question": "If you decline, what specific project or summer opportunity would serve as your primary resume proof?",
+      "significance": "high"
+    },
+    {
+      "id": "b4",
+      "type": "second_order",
+      "applies_to": "B",
+      "title": "Cohort dispersion and campus network effects",
+      "what_is_unexamined": "The social and study group friction of staying on-sequence versus returning to campus with a younger cohort.",
+      "why_it_matters": "Finishing with your familiar peer group provides study partners and immediate professional peer referrals.",
+      "user_quote": "delay my graduation by one semester",
+      "question": "How important is your current peer study network to completing your remaining rigorous coursework?",
+      "significance": "medium"
+    },
+    {
+      "id": "b5",
+      "type": "hidden_assumption",
+      "applies_to": "both",
+      "title": "Assumption of all-or-nothing participation",
+      "what_is_unexamined": "Whether the company would consider a part-time co-op arrangement or a summer-only start date.",
+      "why_it_matters": "You may be treating the choice as binary between 6 full-time months or total refusal when partial or rescheduled options exist.",
+      "user_quote": "take a 6-month internship during my college term",
+      "question": "Have you asked if the company offers a part-time load (20 hours/week) or a 3-month summer format?",
+      "significance": "medium"
+    },
+    {
+      "id": "b6",
+      "type": "uncertainty",
+      "applies_to": "A",
+      "title": "Manager availability versus company prestige",
+      "what_is_unexamined": "The direct team environment, since a prestigious brand with an overwhelmed mentor yields little portfolio evidence.",
+      "why_it_matters": "Your worry about mentorship directly determines whether you produce demonstrable work or spend months on edge.",
+      "user_quote": "if I'll actually get mentored",
+      "question": "What deliverables have past interns produced in this specific team under this manager?",
+      "significance": "high"
+    }
+  ],
+  "tensions": [
+    {
+      "id": "t1",
+      "goal_a": "Gaining immediate industry validation and financial compensation",
+      "goal_a_quote": "stipend is good and it's close to home",
+      "goal_b": "Maintaining academic continuity and graduating on schedule",
+      "goal_b_quote": "delay my graduation by one semester",
+      "why_they_pull_apart": "The timeline that accelerates workforce readiness directly pauses formal institutional completion."
+    },
+    {
+      "id": "t2",
+      "goal_a": "Securing career experience through this company's brand",
+      "goal_a_quote": "real industry experience on my resume",
+      "goal_b": "Protecting against unstructured work or burnout without guidance",
+      "goal_b_quote": "don't know how intense the workload will be or if I'll actually get mentored",
+      "why_they_pull_apart": "You want the resume credential, but the unknown team conditions threaten the quality of that experience."
+    }
+  ],
+  "scrutiny": [
+    {
+      "option_id": "A",
+      "least_examined_assumption": "That a 6-month delay has a trivial impact on financial aid, course prerequisites, and post-grad hiring cycles.",
+      "what_you_would_need_to_know": "Confirmation from your academic advisor on exact prerequisite availability and whether tuition or scholarships are impacted."
+    },
+    {
+      "option_id": "B",
+      "least_examined_assumption": "That on-time graduation without this specific internship will not disadvantage your entry-level full-time job hunt.",
+      "what_you_would_need_to_know": "Whether you already possess sufficient portfolio artifacts, faculty recommendations, or summer opportunities to compete with peers."
+    }
+  ],
+  "coverage": [
+    {
+      "area": "money",
+      "status": "weighed",
+      "note": "Mentioned the stipend as a positive factor, though lost tuition or delayed full-time earning potential was unweighed."
+    },
+    {
+      "area": "time_and_workload",
+      "status": "weighed",
+      "note": "Noted both the 6-month duration, the graduation delay, and worry about daily intensity."
+    },
+    {
+      "area": "learning_and_growth",
+      "status": "weighed",
+      "note": "Highlighted desire for real industry experience alongside uncertainty regarding mentorship."
+    },
+    {
+      "area": "people_and_relationships",
+      "status": "mentioned_lightly",
+      "note": "Mentioned proximity to home, but peer cohort and network impacts were unaddressed."
+    },
+    {
+      "area": "health_and_wellbeing",
+      "status": "mentioned_lightly",
+      "note": "Mentioned workload intensity worry, but stress management and burnout factors were not explored."
+    },
+    {
+      "area": "long_term_path",
+      "status": "weighed",
+      "note": "Directly linked the opportunity to post-graduation resume strength."
+    },
+    {
+      "area": "reversibility_and_exit",
+      "status": "not_mentioned",
+      "note": "No consideration yet of what happens if the role is a poor fit after two months or if college re-enrollment has deadlines."
+    },
+    {
+      "area": "values_and_identity",
+      "status": "not_mentioned",
+      "note": "No explicit reflection on whether this industry aligns with your core personal curiosity or simply meets peer expectations."
+    }
+  ],
+  "questions": [
+    {
+      "rank": 1,
+      "question": "If you speak with your academic advisor, does delaying graduation by one term push back any course prerequisite that is offered only once a year?",
+      "linked_to": "b1",
+      "why_first": "Because a scheduling conflict could turn a 1-semester delay into a 2-semester delay, fundamentally shifting the math before considering anything else."
+    },
+    {
+      "rank": 2,
+      "question": "Can you ask the hiring manager or a recent team intern what typical daily responsibilities look like and how 1-on-1 mentorship is structured?",
+      "linked_to": "b6",
+      "why_first": "Because your main anxiety about accepting is mentorship quality, and a 15-minute conversation could resolve this unknown directly."
+    },
+    {
+      "rank": 3,
+      "question": "Does the company historically extend full-time offers to interns upon graduation, or is this primarily short-term project coverage?",
+      "linked_to": "b2",
+      "why_first": "Because a high conversion rate transforms this from an academic delay into a secured post-graduation career path."
+    },
+    {
+      "rank": 4,
+      "question": "If you decline this offer to finish on schedule, what concrete alternative project or summer internship will provide equivalent resume evidence?",
+      "linked_to": "b3",
+      "why_first": "Because declining is only a clear win if you have a viable substitute for the industry experience you seek."
+    },
+    {
+      "rank": 5,
+      "question": "Is there room to negotiate the terms—such as starting in the summer or working 20 hours part-time alongside a reduced course load?",
+      "linked_to": "b5",
+      "why_first": "Because testing whether the binary constraint is real might uncover a middle path you haven't yet explored."
+    }
+  ],
+  "meta": {
+    "model": "cached-sample",
+    "retries": 0,
+    "cached": true
+  }
+}
