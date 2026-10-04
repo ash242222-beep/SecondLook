@@ -1,21 +1,19 @@
 import React from "react";
-import { Compass, Sparkles, Github, Rocket, RotateCcw } from "lucide-react";
+import { Sparkles, RotateCcw } from "lucide-react";
 
 interface HeaderProps {
   onLoadExample: () => void;
   onReset: () => void;
   hasResults: boolean;
-  onOpenDeployModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onLoadExample,
   onReset,
   hasResults,
-  onOpenDeployModal,
 }) => {
   return (
-    <header className="sticky top-0 z-30 bg-[#FAF7F2]/95 backdrop-blur border-b border-[#E4DED3] px-4 py-3">
+    <header className="sticky top-0 z-30 bg-[#FAF7F2]/95 backdrop-blur-xs border-b border-[#E4DED3] px-4 py-3">
       <div className="max-w-[880px] mx-auto flex items-center justify-between gap-3">
         <button
           onClick={onReset}
@@ -29,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
               Second Look
             </span>
             <span className="hidden sm:inline-block ml-2 text-xs text-[#1B1B1F]/60 font-sans border-l border-[#E4DED3] pl-2">
-              Decision Neutrality Engine
+              Decision Analysis
             </span>
           </div>
         </button>
@@ -38,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
           {hasResults && (
             <button
               onClick={onReset}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#1B1B1F]/70 hover:text-[#1B1B1F] hover:bg-[#E4DED3]/40 rounded-lg transition-colors border border-transparent hover:border-[#E4DED3]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#1B1B1F]/70 hover:text-[#1B1B1F] hover:bg-[#E4DED3]/40 rounded-lg transition-colors border border-transparent hover:border-[#E4DED3] cursor-pointer"
               title="Start a new decision"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -53,17 +51,9 @@ export const Header: React.FC<HeaderProps> = ({
             <Sparkles className="w-3.5 h-3.5" />
             <span>Internship Example</span>
           </button>
-
-          <button
-            onClick={onOpenDeployModal}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#1B1B1F]/75 hover:text-[#1B1B1F] bg-[#FAF7F2] hover:bg-[#E4DED3]/50 rounded-lg transition-colors border border-[#E4DED3] cursor-pointer"
-            title="Deploy to Vercel & GitHub"
-          >
-            <Rocket className="w-3.5 h-3.5 text-[#0F766E]" />
-            <span className="hidden sm:inline">Deploy & GitHub</span>
-          </button>
         </div>
       </div>
     </header>
   );
 };
+

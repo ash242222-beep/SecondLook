@@ -6,6 +6,7 @@ import { TensionMap } from "./TensionMap.tsx";
 import { CoverageStrip } from "./CoverageStrip.tsx";
 import { ScrutinyCards } from "./ScrutinyCards.tsx";
 import { QuestionList } from "./QuestionList.tsx";
+import { ConfidenceRating } from "./ConfidenceRating.tsx";
 import {
   Compass,
   CheckCircle2,
@@ -19,6 +20,7 @@ import {
   Layers,
   Split,
   PieChart,
+  ShieldCheck,
 } from "lucide-react";
 
 interface ResultsViewProps {
@@ -36,6 +38,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
   isReflecting,
   onStartOver,
 }) => {
+  const confidenceRef = useRef<HTMLDivElement>(null);
   const thinkingRef = useRef<HTMLDivElement>(null);
   const chainsRef = useRef<HTMLDivElement>(null);
   const blindSpotsRef = useRef<HTMLDivElement>(null);
@@ -77,7 +80,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
         <div className="flex items-center gap-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-[#FAF7F2] border border-[#E4DED3] text-[#1B1B1F]/80">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#0F766E]" />
-            <span>Strict Neutrality Active</span>
+            <span>Factual Evidence Engine</span>
           </div>
         </div>
       </div>
@@ -162,6 +165,13 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
       >
         <span className="text-[#1B1B1F]/40 font-medium px-1 flex-shrink-0">Jump to:</span>
         <button
+          onClick={() => scrollTo(confidenceRef)}
+          className="px-2.5 py-1 rounded-lg bg-teal-50 border border-teal-200 text-[#0F766E] font-medium hover:bg-teal-100/80 whitespace-nowrap transition cursor-pointer flex items-center gap-1"
+        >
+          <ShieldCheck className="w-3.5 h-3.5" />
+          <span>Confidence Rating</span>
+        </button>
+        <button
           onClick={() => scrollTo(thinkingRef)}
           className="px-2.5 py-1 rounded-lg bg-white border border-[#E4DED3] hover:bg-[#FAF7F2] text-[#1B1B1F]/80 hover:text-[#1B1B1F] whitespace-nowrap transition cursor-pointer"
         >
@@ -198,6 +208,11 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
           <span>5 Ranked Questions</span>
         </button>
       </nav>
+
+      {/* Decision Confidence Rating (Genuine Factual Breakdown) */}
+      <section ref={confidenceRef}>
+        <ConfidenceRating result={result} />
+      </section>
 
       {/* Section 1: How we read your thinking */}
       <section ref={thinkingRef} className="space-y-4 pt-2">
@@ -305,13 +320,13 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
         />
       </section>
 
-      {/* Footer / Remainder */}
+      {/* Footer / Summary */}
       <footer className="pt-12 pb-8 border-t border-[#E4DED3] text-center space-y-4">
         <p className="font-serif-heading text-xl sm:text-2xl font-medium text-[#1B1B1F] tracking-tight">
-          The decision remains yours.
+          Clear, grounded perspective for your next step.
         </p>
-        <p className="text-xs text-[#1B1B1F]/50 max-w-md mx-auto">
-          Second Look never recommends an option or assigns confidence scores. It maps reasoning, uncovers assumptions, and provides clarity.
+        <p className="text-xs text-[#1B1B1F]/60 max-w-md mx-auto">
+          Second Look maps your reasoning, exposes unstated assumptions, and verifies coverage across key life dimensions.
         </p>
 
         <div className="pt-2">
@@ -326,3 +341,4 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
     </div>
   );
 };
+

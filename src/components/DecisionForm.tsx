@@ -139,8 +139,7 @@ export const DecisionForm: React.FC<DecisionFormProps> = ({
           Second Look
         </h1>
         <p className="text-lg sm:text-xl text-[#1B1B1F]/80 leading-relaxed font-sans font-normal">
-          Tell us how you're thinking about a decision. We'll show you what you haven't looked at yet.{" "}
-          <span className="font-medium text-[#1B1B1F]">We won't tell you what to do.</span>
+          Tell us how you're thinking about a decision. We'll show you what you haven't looked at yet to help you make an informed, well-grounded choice.
         </p>
 
         {/* Quick Demo Scenarios Bar */}

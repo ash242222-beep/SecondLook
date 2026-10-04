@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Header } from "./components/Header.tsx";
 import { DecisionForm } from "./components/DecisionForm.tsx";
 import { LoadingState } from "./components/LoadingState.tsx";
 import { ResultsView } from "./components/ResultsView.tsx";
 import { ModeCard } from "./components/ModeCard.tsx";
-import { DeploymentModal } from "./components/DeploymentModal.tsx";
 import { SecondLook, AnalyzeInput } from "../core/types.ts";
-import { AlertCircle, RefreshCw, Sparkles } from "lucide-react";
+import { AlertCircle, Sparkles } from "lucide-react";
 
 export default function App() {
   const [currentInput, setCurrentInput] = useState<AnalyzeInput | null>(null);
@@ -14,7 +13,6 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isReflecting, setIsReflecting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isDeployModalOpen, setIsDeployModalOpen] = useState(false);
 
   // Load cached internship example directly
   const handleLoadCachedExample = async () => {
@@ -132,7 +130,6 @@ export default function App() {
         onLoadExample={handleLoadCachedExample}
         onReset={handleReset}
         hasResults={result !== null}
-        onOpenDeployModal={() => setIsDeployModalOpen(true)}
       />
 
       <main className="flex-1 flex flex-col">
@@ -197,12 +194,6 @@ export default function App() {
           </>
         )}
       </main>
-
-      {/* Deployment & GitHub Pipeline Modal */}
-      <DeploymentModal
-        isOpen={isDeployModalOpen}
-        onClose={() => setIsDeployModalOpen(false)}
-      />
     </div>
   );
 }
