@@ -82,14 +82,17 @@ export const DecisionForm: React.FC<DecisionFormProps> = ({
     }
   }, [initialValues]);
 
-  // Save draft
+  // Debounced save draft to avoid IO churn on every keystroke
   useEffect(() => {
-    try {
-      const draft = { decision, optionA, optionB, pulling, worries, context };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
-    } catch {
-      // Ignore
-    }
+    const timer = setTimeout(() => {
+      try {
+        const draft = { decision, optionA, optionB, pulling, worries, context };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+      } catch {
+        // Ignore localStorage quota errors
+      }
+    }, 300);
+    return () => clearTimeout(timer);
   }, [decision, optionA, optionB, pulling, worries, context]);
 
   const handleClearDraft = () => {
@@ -177,11 +180,16 @@ export const DecisionForm: React.FC<DecisionFormProps> = ({
             id="decision"
             type="text"
             required
+            aria-required="true"
+            aria-describedby="decision-help"
             value={decision}
             onChange={(e) => setDecision(e.target.value)}
             placeholder="Should I take a 6-month internship during my college term?"
             className="w-full px-3.5 py-2.5 rounded-xl border border-[#E4DED3] bg-[#FAF7F2]/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/30 focus:border-[#0F766E] text-base text-[#1B1B1F] placeholder:text-[#1B1B1F]/40 transition"
           />
+          <span id="decision-help" className="sr-only">
+            State the primary question or choice you are facing.
+          </span>
         </div>
 
         {/* Fields 2 & 3: Options A and B */}
@@ -234,12 +242,17 @@ export const DecisionForm: React.FC<DecisionFormProps> = ({
           <textarea
             id="pulling"
             required
+            aria-required="true"
+            aria-describedby="pulling-help"
             rows={3}
             value={pulling}
             onChange={(e) => setPulling(e.target.value)}
             placeholder="The stipend is good and it's close to home. I want real industry experience on my resume before graduating..."
             className="w-full px-3.5 py-2.5 rounded-xl border border-[#E4DED3] bg-[#FAF7F2]/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F766E]/30 focus:border-[#0F766E] text-base text-[#1B1B1F] placeholder:text-[#1B1B1F]/40 transition resize-y"
           />
+          <span id="pulling-help" className="sr-only">
+            Describe the reasons, incentives, or feelings pulling you toward each of the options.
+          </span>
         </div>
 
         {/* Field 5: What worries you */}

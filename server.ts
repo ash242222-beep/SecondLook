@@ -1,9 +1,10 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { analyzeDecision } from "./core/analyze.ts";
+import { validateAnalyzePayload, checkRateLimit } from "./core/security.ts";
 
 dotenv.config();
 
@@ -13,24 +14,46 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-app.use(express.json({ limit: "2mb" }));
+// Security Middleware: Headers & Body Limit
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  next();
+});
 
-// API route for analysis
+app.use(express.json({ limit: "500kb" }));
+
+// API route for analysis with rate limiting and strict validation
 app.post("/api/analyze", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { decision, optionA, optionB, pulling, worries, context, answers } = req.body;
+    const clientIp = (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress || "127.0.0.1";
+    const rateCheck = checkRateLimit(clientIp, 30, 60000);
 
-    if (!decision || !pulling) {
+    res.setHeader("X-RateLimit-Limit", "30");
+    res.setHeader("X-RateLimit-Remaining", rateCheck.remaining.toString());
+
+    if (!rateCheck.allowed) {
+      res.status(429).json({
+        error: "rate_limited",
+        message: "Lots of people are using this right now. Your text is saved. Try again in a minute, or open the pre-run example.",
+      });
+      return;
+    }
+
+    const validation = validateAnalyzePayload(req.body);
+    if (!validation.isValid || !validation.data) {
       res.status(400).json({
         error: "bad_input",
-        message: "Decision and pulling fields are required",
+        message: validation.error || "Invalid request payload",
       });
       return;
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      // In local dev without key, if requested, return sample or clear message
       res.status(500).json({
         error: "missing_api_key",
         message: "GEMINI_API_KEY environment variable is not configured. You can test with the pre-run internship example.",
@@ -38,18 +61,15 @@ app.post("/api/analyze", async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const result = await analyzeDecision(
-      { decision, optionA, optionB, pulling, worries, context, answers },
-      apiKey
-    );
-
+    const result = await analyzeDecision(validation.data, apiKey);
     res.json(result);
-  } catch (error: any) {
-    const status = error.status || error.statusCode || 500;
-    const code = error.code || "analysis_failed";
+  } catch (error: unknown) {
+    const err = error as { status?: number; statusCode?: number; code?: string; message?: string };
+    const status = err.status || err.statusCode || 500;
+    const code = err.code || "analysis_failed";
     res.status(status).json({
       error: code,
-      message: error.message || "Failed to analyze decision",
+      message: err.message || "Failed to analyze decision",
     });
   }
 });

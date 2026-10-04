@@ -1,18 +1,36 @@
 import type { IncomingMessage, ServerResponse } from "http";
 import { analyzeDecision } from "../core/analyze.ts";
+import { validateAnalyzePayload } from "../core/security.ts";
 
-export default async function handler(req: any, res: any) {
+interface ServerlessRequest extends IncomingMessage {
+  body?: unknown;
+  method?: string;
+}
+
+interface ServerlessResponse extends ServerResponse {
+  status: (statusCode: number) => ServerlessResponse;
+  json: (data: unknown) => void;
+}
+
+export default async function handler(
+  req: ServerlessRequest,
+  res: ServerlessResponse
+) {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { decision, optionA, optionB, pulling, worries, context, answers } = req.body || {};
-
-    if (!decision || !pulling) {
+    const validation = validateAnalyzePayload(req.body);
+    if (!validation.isValid || !validation.data) {
       return res.status(400).json({
         error: "bad_input",
-        message: "Decision and pulling fields are required",
+        message: validation.error || "Invalid request payload",
       });
     }
 
@@ -24,18 +42,15 @@ export default async function handler(req: any, res: any) {
       });
     }
 
-    const result = await analyzeDecision(
-      { decision, optionA, optionB, pulling, worries, context, answers },
-      apiKey
-    );
-
+    const result = await analyzeDecision(validation.data, apiKey);
     return res.status(200).json(result);
-  } catch (error: any) {
-    const status = error.status || error.statusCode || 500;
-    const code = error.code || "analysis_failed";
+  } catch (error: unknown) {
+    const err = error as { status?: number; statusCode?: number; code?: string; message?: string };
+    const status = err.status || err.statusCode || 500;
+    const code = err.code || "analysis_failed";
     return res.status(status).json({
       error: code,
-      message: error.message || "Failed to analyze decision",
+      message: err.message || "Failed to analyze decision",
     });
   }
 }

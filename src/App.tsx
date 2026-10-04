@@ -34,10 +34,9 @@ export default function App() {
           "I am a junior with three terms left. My tuition aid requires continuous enrollment unless granted a leave of absence.",
       });
       setResult(sampleData);
-    } catch (err: any) {
-      setErrorMessage(
-        "Could not load pre-generated example. Please try submitting directly."
-      );
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Could not load pre-generated example. Please try submitting directly.";
+      setErrorMessage(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +64,6 @@ export default function App() {
         } else if (data.error === "bad_output") {
           throw new Error("That analysis came back garbled. Nothing was lost. Try again.");
         } else if (data.error === "missing_api_key") {
-          // If server reports missing key in local test, fallback to cached sample or inform user
           throw new Error(
             "Gemini API key is not configured in environment variables. You can view the full interactive pre-run internship example."
           );
@@ -75,10 +73,9 @@ export default function App() {
       }
 
       setResult(data);
-    } catch (err: any) {
-      setErrorMessage(
-        err.message || "We couldn't reach the server. Check your connection and try again."
-      );
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "We couldn't reach the server. Check your connection and try again.";
+      setErrorMessage(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -111,8 +108,9 @@ export default function App() {
 
       setResult(data);
       setCurrentInput(updatedInput);
-    } catch (err: any) {
-      setErrorMessage(err.message || "Could not re-analyze with your answers.");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Could not re-analyze with your answers.";
+      setErrorMessage(errorMsg);
     } finally {
       setIsReflecting(false);
     }
@@ -126,13 +124,21 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#1B1B1F] flex flex-col font-sans selection:bg-teal-100 selection:text-teal-900">
+      {/* Skip to Main Content Link for Keyboard / Screen Reader Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-3 focus:left-3 focus:px-4 focus:py-2 focus:bg-[#1B1B1F] focus:text-white focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-[#0F766E]"
+      >
+        Skip to main content
+      </a>
+
       <Header
         onLoadExample={handleLoadCachedExample}
         onReset={handleReset}
         hasResults={result !== null}
       />
 
-      <main className="flex-1 flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col focus:outline-none">
         {/* Error Banner */}
         {errorMessage && (
           <div className="max-w-[880px] mx-auto mt-4 px-4 w-full">

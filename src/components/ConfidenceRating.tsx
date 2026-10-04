@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { SecondLook } from "../../core/types.ts";
 import { ShieldCheck, Info, CheckCircle2, AlertCircle, HelpCircle } from "lucide-react";
 
@@ -64,7 +64,7 @@ export function computeDecisionConfidence(result: SecondLook) {
 }
 
 export const ConfidenceRating: React.FC<ConfidenceRatingProps> = ({ result }) => {
-  const metrics = computeDecisionConfidence(result);
+  const metrics = useMemo(() => computeDecisionConfidence(result), [result]);
 
   return (
     <div className="bg-white rounded-2xl border border-[#E4DED3] p-5 sm:p-6 shadow-2xs space-y-4">
@@ -101,7 +101,14 @@ export const ConfidenceRating: React.FC<ConfidenceRatingProps> = ({ result }) =>
       </div>
 
       {/* Progress meter */}
-      <div className="w-full bg-[#FAF7F2] rounded-full h-2.5 overflow-hidden border border-[#E4DED3]">
+      <div
+        role="progressbar"
+        aria-valuenow={metrics.score}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Decision Groundedness Rating Score"
+        className="w-full bg-[#FAF7F2] rounded-full h-2.5 overflow-hidden border border-[#E4DED3]"
+      >
         <div
           className="bg-[#0F766E] h-2.5 rounded-full transition-all duration-700 ease-out"
           style={{ width: `${metrics.score}%` }}

@@ -2,5 +2,7 @@
   "name": "Second Look",
   "description": "Analyze your reasoning, uncover blind spots, and measure decision readiness with grounded evidence.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
